@@ -25,12 +25,13 @@ class LoginPage extends StatelessWidget {
 
   Future<void> _authenticate() async {
     const String url = 'https://beta.africartrack.com/login.php';
-    final Map<String, String> data = {
+    /*final Map<String, String> data = {
       'username': usernameController.text,
       'password': passwordController.text,
-    };
+    };*/
 
-    final response = await http.post(Uri.parse(url), body: data);
+    final response = await http.post(Uri.parse(url),
+        body: json.encode({"username": "user1", "password": "password1"}));
     final responseData =
         json.decode(response.body) as Map<String, dynamic>; // Decode as Map
 
