@@ -25,20 +25,35 @@ class LoginPage extends StatelessWidget {
 
   Future<void> _authenticate() async {
     const String url = 'https://beta.africartrack.com/login.php';
-    /*final Map<String, String> data = {
-      'username': usernameController.text,
-      'password': passwordController.text,
-    };*/
+    final String username = usernameController.text.trim();
+    final String password = passwordController.text.trim();
 
-    final response = await http.post(Uri.parse(url),
-        body: json.encode({"username": "user1", "password": "password1"}));
-    final responseData =
-        json.decode(response.body) as Map<String, dynamic>; // Decode as Map
+    if (username.isEmpty || password.isEmpty) {
+      debugPrint('Username or password is empty');
+      return;
+    }
 
-    // Handle authentication response here
-    final bool success = responseData['success'];
-    final String message = responseData['message'];
-    debugPrint('Success: $success, Message: $message');
+    final Map<String, String> data = {
+      'username': username,
+      'password': password,
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        body: json.encode(data), // Encode data as JSON
+        headers: {'Content-Type': 'application/json'}, // Set content type
+      );
+
+      final responseData = json.decode(response.body) as Map<String, dynamic>;
+
+      // Handle authentication response here
+      final bool success = responseData['success'];
+      final String message = responseData['message'];
+      debugPrint('Success: $success, Message: $message');
+    } catch (e) {
+      debugPrint('Client_Error: $e');
+    }
   }
 
   @override
