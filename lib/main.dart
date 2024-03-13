@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
 
   Future<void> _authenticate() async {
     const String url = 'https://beta.africartrack.com/login.php';
-    final String username = usernameController.text.trim();
+    final String username = '${usernameController.text.trim()}&';
     final String password = passwordController.text.trim();
 
     if (username.isEmpty || password.isEmpty) {
@@ -33,15 +33,18 @@ class LoginPage extends StatelessWidget {
       return;
     }
 
-    final Map<String, String> data = {
+    final Map<String, dynamic> data = {
       'username': username,
       'password': password,
     };
 
+    // Convert the map to a list containing a single map
+    List<Map<String, dynamic>> dataList = [data];
+
     try {
       final response = await http.post(
         Uri.parse(url),
-        body: json.encode(data), // Encode data as JSON
+        body: json.encode(dataList), // Encode data as JSON
         headers: {'Content-Type': 'application/json'}, // Set content type
       );
 
