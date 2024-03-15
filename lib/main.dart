@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
 
   Future<void> _authenticate() async {
     const String url = 'https://beta.africartrack.com/login.php';
-    final String username = '${usernameController.text.trim()}&';
+    final String username = usernameController.text.trim();
     final String password = passwordController.text.trim();
 
     if (username.isEmpty || password.isEmpty) {
